@@ -58,7 +58,7 @@ pg_isready
 
 > **Screenshot 1:** Take a screenshot showing all three version/status checks.
 >
-> `[insert screenshot]`
+> <img width="364" height="135" alt="1" src="https://github.com/user-attachments/assets/7a3c668a-4eee-4f91-831b-7d20f47ae1ec" />
 
 ---
 
@@ -111,19 +111,21 @@ Exit the REPL:
 > **Screenshot 2:** Take a screenshot showing all REPL interactions above,
 > including the f-string output.
 >
-> `[insert screenshot]`
+> <img width="680" height="295" alt="2" src="https://github.com/user-attachments/assets/98c7b77a-9321-428e-ab3f-d7c6ad538713" />
 
 ### Questions for Section 1
 
 **Question 1.1:** In the REPL, typing `2 ** 10` without `print` still shows
 `1024`. Why does this work in the REPL but *not* in a script file?
 
-> *Your answer:*
+> In the REPL, Python automatically prints the result of expressions, so 2 ** 10 shows 1024 without print.
+In a script file, results are not shown unless you explicitly use print(), because scripts do not automatically display expression values.
 
 **Question 1.2:** The f-string format specifier `:.2f` controls how `price`
 is displayed. What does it mean, and what would `:.4f` produce for `18.9`?
 
-> *Your answer:*
+> The format specifier :.2f means: display the number as a floating-point value with 2 decimal places.
+For 18.9, using :.4f would produce: 18.9000.
 
 ---
 
@@ -167,13 +169,15 @@ Exit the REPL:
 can write `sqrt(144)` without the `math.` prefix. What is the drawback of
 this style compared to `import math`?
 
-> *Your answer:*
+> Using from math import sqrt can lead to name conflicts, because sqrt is imported directly into the global namespace.
+This makes it unclear where the function comes from and can overwrite functions with the same name in your code.
 
 **Question 2.2:** The standard library is always available — it requires no
 installation. Name two other standard library modules (not `math`) and
 describe in one sentence what each one is used for.
 
-> *Your answer:*
+> random: Used to generate random numbers, e.g. for simulations or games.
+datetime: Used to work with dates and times, such as getting the current date or calculating time differences. 
 
 ---
 
@@ -234,7 +238,7 @@ python3 berechnung.py
 > **Screenshot 3:** Take a screenshot showing the terminal output of
 > `python3 berechnung.py`.
 >
-> `[insert screenshot]`
+> <img width="727" height="299" alt="3" src="https://github.com/user-attachments/assets/02f99792-a136-4838-97df-f9af7cdaedf9" />
 
 ### Step 4 – Commit
 
@@ -251,14 +255,17 @@ it only under `if __name__ == "__main__"`. What is `__name__` set to when the
 file is run directly? What is it set to when the file is *imported* by another
 module — and why does this distinction matter?
 
-> *Your answer:*
+> When the file is run directly, __name__ is set to "main".
+When the file is imported into another module, __name__ is set to the module name (e.g. "berechnung").
+
+This matters because it ensures that main() only runs when the script is executed directly, and not when it is imported as a module
 
 **Question 3.2:** The `kreisflaeche` function could be defined without
 importing `math` by hard-coding `3.14159` instead of `math.pi`. Give one
 concrete reason why using `math.pi` is preferable.
 
-> *Your answer:*
-
+> Using math.pi is preferable because it provides a more accurate and standardized value of π.
+Hard-coding a value like 3.14159 can introduce small rounding errors, while math.pi is more precise and reliable.
 ---
 
 ## 3.1 – Shebang and File Permissions
@@ -417,7 +424,7 @@ uv --version
 
 > **Screenshot 4:** Take a screenshot showing the `uv --version` output.
 >
-> `[insert screenshot]`
+> <img width="380" height="85" alt="4" src="https://github.com/user-attachments/assets/c3cb1e64-95d0-40c5-8a73-6662563b6ae1" />
 
 ---
 
@@ -493,7 +500,7 @@ uv run python3 berechnung.py
 > **Screenshot 5:** Take a screenshot showing the colourful table output
 > from `uv run`.
 >
-> `[insert screenshot]`
+> <img width="384" height="236" alt="5" src="https://github.com/user-attachments/assets/ac68886d-bebf-45bd-b7e0-8c898ab7d7cd" />
 
 ### Step 5 – Commit
 
@@ -510,13 +517,17 @@ git push
 `uv.lock` be committed to version control while generated files like `.venv/`
 should not?
 
-> *Your answer:*
+> pyproject.toml defines the project’s dependencies in a general way (what the project needs).
+uv.lock stores the exact resolved versions of all packages, ensuring the environment is fully reproducible.
+
+uv.lock should be committed so everyone gets the same dependency versions, while .venv/ is not committed because it is automatically generated and machine-specific.
 
 **Question 4.2:** `uv run python3 berechnung.py` uses the virtual
 environment's Python. What would happen if you ran `python3 berechnung.py`
 directly (without `uv run`) and `rich` is not installed system-wide?
 
-> *Your answer:*
+> If you run python3 berechnung.py without uv run, it uses the system Python environment.
+If rich is not installed globally, the script will fail with ModuleNotFoundError: No module named 'rich', because the dependency is only available inside the virtual environment.
 
 ---
 
@@ -632,7 +643,7 @@ uv run python3 abfrage.py
 
 > **Screenshot 6:** Take a screenshot showing the query result table.
 >
-> `[insert screenshot]`
+> <img width="436" height="152" alt="6" src="https://github.com/user-attachments/assets/899be27b-32e3-418a-92a0-e8681ff4ba48" />
 
 ### Step 4 – Commit
 
@@ -648,21 +659,24 @@ git push
 query. What is the role of a cursor in the database connection model?
 Why is one connection able to hold multiple cursors simultaneously?
 
-> *Your answer:*
+> A cursor is an object that allows you to execute SQL statements and fetch results from a database. It acts like a pointer to the result set.
+One connection can have multiple cursors because they share the same database session but can run independent queries in parallel.
+
 
 **Question 5.2:** The connection parameters (username, password, host) are
 written directly in the script as `DB_CONFIG`. Why is this a security problem
 in a real project? Name one common alternative for storing credentials outside
 the source code.
 
-> *Your answer:*
+>  Storing credentials in the source code is insecure because they can be exposed in version control or shared accidentally.
+A common alternative is using environment variables (e.g. .env file or system env vars).
 
 **Question 5.3:** `cursor.fetchall()` returns a list of tuples. The script
 accesses `row[0]`, `row[1]`, etc. by index. What is the risk of this approach,
 and which `psycopg2` cursor subclass would return named columns instead?
 
-> *Your answer:*
-
+> Using index-based access (row[0], row[1]) is risky because it depends on column order and can break if the query changes.
+A safer option is using psycopg2.extras.DictCursor, which allows access by column names instead of indexe
 ---
 
 ## 6 – A Minimal FastAPI Application
@@ -755,7 +769,7 @@ from your code.
 > **Screenshot 7:** Take a screenshot showing the `curl` response and the
 > uvicorn startup log in the other terminal.
 >
-> `[insert screenshot]`
+> <img width="458" height="342" alt="7" src="https://github.com/user-attachments/assets/57291f99-e99c-4df6-9110-520fa50008c9" />
 
 ### Step 4 – Commit
 
@@ -773,12 +787,13 @@ git push
 automatically. What standard does it use to describe the API, and what
 advantage does machine-readable API documentation have over a PDF?
 
-> *Your answer:*
+> FastAPI uses the OpenAPI (Swagger) specification to describe the API.
+Machine-readable documentation allows automatic generation of interactive docs, client code, and easier integration with other systems, unlike a static PDF.
 
 **Question 6.2:** The `--reload` flag is useful during development but should
 not be used in production. Why?
 
-> *Your answer:*
+> --reload watches files and restarts the server automatically on changes. This adds overhead and reduces performance, so it is only useful in development. In production it can also create instability and security risks, so it should be disabled.
 
 ---
 
@@ -938,7 +953,7 @@ Try posting the same e-mail a second time and observe the 409 error response.
 > **Screenshot 8:** Take a screenshot showing the curl output for all three
 > endpoints, including the 409 error on the duplicate POST.
 >
-> `[insert screenshot]`
+> <img width="442" height="330" alt="8" src="https://github.com/user-attachments/assets/6c7c893f-5db2-4f55-b146-712944ea418a" />
 
 ### Step 4 – Commit
 
@@ -955,20 +970,21 @@ git push
 What would be the security risk of building the SQL string by concatenation
 (`"VALUES ('" + mitglied.nachname + "'...)`)? Name the attack this prevents.
 
-> *Your answer:*
+> It prevents SQL injection attacks. Without parameterized queries, a user could inject malicious SQL code through input fields and manipulate or destroy the database.
 
 **Question 7.2:** The `RealDictCursor` in endpoints 1 and 2 returns each row
 as a dictionary instead of a tuple. Why does this make the API response more
 useful to a client that receives the JSON output?
 
-> *Your answer:*
+> Because dictionaries include column names as keys, the JSON output becomes self-explanatory (e.g. "titel": "Das Parfum"), instead of unclear index-based tuples like [0], [1].
 
 **Question 7.3:** A caller of `GET /ausleihen/offen` receives a list of open
 loans without knowing anything about the underlying table structure, join logic,
 or database credentials. Name two concrete advantages this abstraction provides
 compared to giving every caller direct database access.
 
-> *Your answer:*
+> Security: users don’t get direct access to the database credentials or structure
+Abstraction / control: backend can change schema without breaking clients (API stays stable)
 
 ---
 
@@ -980,7 +996,7 @@ can call `/ausleihen/offen` without knowing SQL. What is the general software
 engineering principle behind this, and where else in a typical application
 stack does the same principle appear?
 
-> *Your answer:*
+> This is the principle of abstraction / separation of concerns. It is also used in layered architectures (frontend → API → backend → database) and in MVC (Model–View–Controller), where each layer has a specific responsibility.
 
 **Question B – Stateless HTTP vs. database connections:**  
 Each of the three endpoints opens a new database connection and closes it after
@@ -988,7 +1004,7 @@ the query. In a production system with hundreds of simultaneous requests this
 would be inefficient. What is the standard solution, and which Python library
 provides it for `psycopg2`?
 
-> *Your answer:*
+> The standard solution is a connection pool, which reuses existing database connections instead of creating new ones every time. For psycopg2, this is provided by psycopg2.pool.
 
 **Question C – Authentication:**  
 The API currently has no access control — anyone who can reach the server on
@@ -997,7 +1013,7 @@ to a FastAPI application are **JWT tokens** (stateless, validated by the API
 itself) and **Keycloak** (external identity provider, acting as middleware).
 What is the main operational difference between the two approaches?
 
-> *Your answer:*
+> JWT is handled inside the application itself (self-contained tokens), while Keycloak is an external authentication server that manages users and tokens centrally for multiple applications.
 
 **Question D – The abstraction chain:**  
 You have now built a complete chain: raw data in PostgreSQL → SQL query in
@@ -1005,7 +1021,7 @@ Python → JSON response from FastAPI → curl client. Describe in two sentences
 what each link in this chain contributes and why removing any one of them
 would make the system harder to use or maintain.
 
-> *Your answer:*
+> PostgreSQL stores the data, SQL defines how to retrieve it, FastAPI exposes it as a web service, and curl acts as the client requesting it. Without the API layer, clients would need direct database access; without SQL, data retrieval becomes impossible; without the database, there is no persistence; without the client, the system cannot be accessed externally.
 
 ---
 
